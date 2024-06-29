@@ -1,5 +1,5 @@
 {
-  "name": "carousel",
+  "name": "weather-app",
   "version": "1.0.0",
   "description": "## Built with:",
   "main": "index.js",
@@ -18,7 +18,9 @@
   "devDependencies": {
     "@babel/cli": "^7.24.7",
     "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
     "@eslint/js": "^9.4.0",
+    "babel-loader": "^9.1.3",
     "css-loader": "^7.1.2",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -32,7 +34,7 @@
     "html-webpack-plugin": "^5.6.0",
     "prettier": "3.3.2",
     "style-loader": "^4.0.0",
-    "webpack": "^5.91.0",
+    "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
   }
 }

@@ -12,7 +12,6 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Restaurant Page',
             filename: 'index.html',
             template: './src/index.html',
             inject: 'head',
@@ -42,7 +41,6 @@ module.exports = {
                         presets: [
                             ['@babel/preset-env', { targets: 'defaults' }],
                         ],
-                        plugins: ['@babel/plugin-proposal-class-properties'],
                     },
                 },
             },
