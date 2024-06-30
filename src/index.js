@@ -17,10 +17,35 @@ const getWeatherData = async () => {
     try {
         // data for all 3 days
         const data = await fetch(
-            'https://api.weatherapi.com/v1/forecast.json?key=91e2728ed3854429add53229242906&q=singapore&days=3'
+            'https://api.weatherapi.com/v1/forecast.json?key=91e2728ed3854429add53229242906&q=singapore&days=3',
+            { mode: 'cors' }
         );
         const response = await data.json();
         const forecastdata = response.forecast.forecastday;
+
+        // today's data
+        const today = [];
+        const todaydata = forecastdata[0].hour;
+        todaydata.forEach((hourdata) => {
+            const hour = {};
+            const time = hourdata.time.split(' ')[1];
+            console.log(time);
+            hour.weatherDataCelsius = createHourObj(
+                time,
+                hourdata.temp_c,
+                hourdata.condition.icon
+            );
+            hour.weatherDataFahrenheit = createHourObj(
+                time,
+                hourdata.temp_f,
+                hourdata.condition.icon
+            );
+            today.push(hour);
+        });
+
+        console.log(today);
+
+        // forecast data
         const days = [];
         forecastdata.forEach((daydata) => {
             const day = {};
@@ -42,7 +67,7 @@ const getWeatherData = async () => {
             );
             days.push(day);
         });
-        console.log(days);
+        // console.log(days);
     } catch (error) {
         console.log(error);
     }
@@ -56,6 +81,14 @@ const createWeatherObj = (max, min, avg, humidity, rain, description) => {
         humidity,
         rain,
         description,
+    };
+};
+
+const createHourObj = (time, temp, icon) => {
+    return {
+        time,
+        temp,
+        icon,
     };
 };
 
