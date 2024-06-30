@@ -15,32 +15,52 @@ import './styles.css';
 
 const getWeatherData = async () => {
     try {
-        const todayData = await fetch(
-            'https://api.weatherapi.com/v1/current.json?key=91e2728ed3854429add53229242906&q=singapore'
+        // data for all 3 days
+        const data = await fetch(
+            'https://api.weatherapi.com/v1/forecast.json?key=91e2728ed3854429add53229242906&q=singapore&days=3'
         );
-        const response = await todayData.json();
-        const currentTodayData = response.current;
-        const weatherDataCelsius = createWeatherObj(
-            currentTodayData.feelslike_c,
-            currentTodayData.humidity,
-            currentTodayData.temp_c
-        );
-        const weatherDataFahrenheit = createWeatherObj(
-            currentTodayData.feelslike_f,
-            currentTodayData.humidity,
-            currentTodayData.temp_f
-        );
+        const response = await data.json();
+        const forecastdata = response.forecast.forecastday;
+        const days = [];
+        forecastdata.forEach((daydata) => {
+            const day = {};
+            day.weatherDataCelsius = createWeatherObj(
+                daydata.day.maxtemp_c,
+                daydata.day.mintemp_c,
+                daydata.day.avgtemp_c,
+                daydata.day.avghumidity,
+                daydata.day.daily_chance_of_rain,
+                daydata.day.condition.text
+            );
+            day.weatherDataFahrenheit = createWeatherObj(
+                daydata.day.maxtemp_f,
+                daydata.day.mintemp_f,
+                daydata.day.avgtemp_f,
+                daydata.day.avghumidity,
+                daydata.day.daily_chance_of_rain,
+                daydata.day.condition.text
+            );
+            days.push(day);
+        });
+        console.log(days);
     } catch (error) {
         console.log(error);
     }
 };
 
-const createWeatherObj = (feelslike, humidity, temp) => {
+const createWeatherObj = (max, min, avg, humidity, rain, description) => {
     return {
-        feelslike,
+        max,
+        min,
+        avg,
         humidity,
-        temp,
+        rain,
+        description,
     };
 };
 
 getWeatherData();
+
+// create and include weather icon
+// const img = document.createElement('img');
+// console.log(daydata.day.condition.icon);
