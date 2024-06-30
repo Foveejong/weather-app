@@ -23,27 +23,32 @@ const getWeatherData = async () => {
         const response = await data.json();
         const forecastdata = response.forecast.forecastday;
 
+        // get country data
+        const countrydata = response.location;
+        const countrytime = countrydata.localtime.split(' ')[1];
+        const country = createCountryObj(
+            countrydata.name,
+            countrydata.country,
+            countrydata.localtime.split(' ')[1]
+        );
+
         // today's data
         const today = [];
         const todaydata = forecastdata[0].hour;
         todaydata.forEach((hourdata) => {
             const hour = {};
-            const time = hourdata.time.split(' ')[1];
-            console.log(time);
             hour.weatherDataCelsius = createHourObj(
-                time,
+                hourdata.time.split(' ')[1],
                 hourdata.temp_c,
                 hourdata.condition.icon
             );
             hour.weatherDataFahrenheit = createHourObj(
-                time,
+                hourdata.time.split(' ')[1],
                 hourdata.temp_f,
                 hourdata.condition.icon
             );
             today.push(hour);
         });
-
-        console.log(today);
 
         // forecast data
         const days = [];
@@ -71,6 +76,14 @@ const getWeatherData = async () => {
     } catch (error) {
         console.log(error);
     }
+};
+
+const createCountryObj = (name, country, time) => {
+    return {
+        name,
+        country,
+        time,
+    };
 };
 
 const createWeatherObj = (max, min, avg, humidity, rain, description) => {
