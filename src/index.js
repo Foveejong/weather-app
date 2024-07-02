@@ -1,4 +1,5 @@
 import './styles.css';
+import maxtemp from '../assets/temperature-snow-svgrepo-com.svg';
 
 // fetch(
 //     'https://api.weatherapi.com/v1/current.json?key=91e2728ed3854429add53229242906&q=singapore'
@@ -13,6 +14,13 @@ import './styles.css';
 //         console.log(error);
 //     });
 
+// const img1 = document.createElement('img');
+// const day1 = document.querySelector('.min-temp');
+
+// img1.src = maxtemp;
+// img1.classList.add('mintempimg', 'svg');
+// day1.appendChild(img1);
+
 const getWeatherData = async () => {
     try {
         // data for all 3 days
@@ -25,11 +33,10 @@ const getWeatherData = async () => {
 
         // get country data
         const countrydata = response.location;
-        const countrytime = countrydata.localtime.split(' ')[1];
         const country = createCountryObj(
             countrydata.name,
             countrydata.country,
-            countrydata.localtime.split(' ')[1]
+            countrydata.localtime
         );
 
         // today's data
@@ -110,3 +117,9 @@ getWeatherData();
 // create and include weather icon
 // const img = document.createElement('img');
 // console.log(daydata.day.condition.icon);
+
+// const form = document.querySelector('form');
+// form.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     console.log(document.querySelector('input').value);
+// });

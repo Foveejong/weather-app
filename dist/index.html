@@ -6,6 +6,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script defer src="main.js"></script></head>
 <body>
-    <p>hi</p>
+    <div class="top-container">
+        <div class="title">Weather</div>
+        <div class="form-container">
+            <button type="button">Change measurement</button>
+            <form>
+                <div class="searchbar-container">
+                    <input type="text" name="country" placeholder="Country">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="page-container">
+        <div class="sidebar">
+            <div class="today-info-container">
+                <p class="subheader country">Singapore, Singapore</p>
+                <p class="subheader time">12/12/12 08:00</p>
+            </div>
+            <div class="forecast-days-container">
+                <p class="subheader">3 Days Forecast</p>
+                <div class="days-container">
+                    <div class="day-container">
+                        <img class="svg" src="https://cdn.weatherapi.com/weather/64x64/day/296.png">
+                        <div class="day-desc-container">
+                            <p>Avg Temp: 25</p>
+                            <p>Condition: chance to rain</p>
+                            <p>Chance of rain: 88</p>
+                        </div>
+                    </div>
+                    <div class="day-container">
+                        <img class="svg" src="https://cdn.weatherapi.com/weather/64x64/day/296.png">
+                        <div class="day-desc-container">
+                            <p>Avg Temp: 25</p>
+                            <p>Condition: chance to rain</p>
+                            <p>Chance of rain: 88</p>
+                        </div>
+                    </div>
+                    <div class="day-container">
+                        <img class="svg" src="https://cdn.weatherapi.com/weather/64x64/day/296.png">
+                        <div class="day-desc-container">
+                            <p>Avg Temp: 25</p>
+                            <p>Patchy rain nearby</p>
+                            <p>Chance of rain: 88</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="full-forecast-container">
+                <p class="forecast">Forecast</p>
+                <div class="info-container">
+                    <div class="each-info-container">
+                        <div class="subheader info">Min Temp</div>
+                        <div class="img-text-container">
+                            <img class="asset svg min-temp" src="../assets/temperature-snow-svgrepo-com.svg" alt="">
+                            <p class="subheader">25&#176;C</p>
+                        </div>
+                    </div>
+                    <div class="each-info-container">
+                        <div class="subheader info">Max Temp</div>
+                        <div class="img-text-container">
+                            <img class="asset svg max-temp" src="../assets/temperature-sun-svgrepo-com.svg" alt="">
+                            <p class="subheader">25C</p>
+                        </div>
+                    </div>
+                    <div class="each-info-container">
+                        <div class="subheader info">Avg Temp</div>
+                        <div class="img-text-container">
+                            <img class="asset svg avg-temp" src="../assets/temperature-low-svgrepo-com.svg" alt="">
+                            <p class="subheader">25C</p>
+                        </div>
+                    </div>
+                    <div class="each-info-container">
+                        <div class="subheader info">Humidity</div>
+                        <div class="img-text-container">
+                            <img class="asset svg humidity" src="../assets/humidity-svgrepo-com.svg" alt="">
+                            <p class="subheader">25C</p>
+                        </div>
+                    </div>
+                    <div class="each-info-container">
+                        <div class="subheader info chance-of-rain">Chance of rain</div>
+                        <div class="img-text-container">
+                            <img class="asset svg chance-of-rain" src="../assets/rain-svgrepo-com.svg" alt="">
+                            <p class="subheader">25C</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="subheader description-container">
+                    <p>Today's Description: Rainy Day</p>
+                </div>
+            </div>
+            <div class="hourly-forecast-container">
+                <div class="hour">
+                    <p class="subtitle hour-time">0000</p>
+                    <img src="https://cdn.weatherapi.com/weather/64x64/day/296.png">
+                    <p class="subtitle temp">25C</p>
+                </div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+                <div class="hour">1</div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

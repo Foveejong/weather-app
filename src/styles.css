@@ -2,7 +2,238 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    /* letter-spacing: 2px; */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    /* border: black 1px solid; */
+}
+
+:root {
+    --standard-margin: 1rem;
+}
+
+body {
+    margin: 4rem 10rem;
+    background-color: black;
+}
+
+.svg {
+    height: 4rem;
+    width: 4rem;
+}
+
+.asset {
+    filter: invert(100%);
+}
+
+.title {
+    font-size: 3rem;
+}
+
+.subheader {
+    font-size: 1.5rem;
+}
+
+.top-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-container {
+    display: flex;
+    gap: 1rem;
+}
+
+input, button {
+    font-size: 1.2rem;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+}
+
+input {
+    border: none;
+}
+
+button {
+    background-color: rgb(93, 93, 93);
+    border: 1px white solid;
+}
+
+.page-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    min-height: 50vh;
+    gap: 2rem;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 2rem;
+    min-width: 250px;
+}
+
+.sidebar .subheader {
+    padding: 0 0 1rem 0;
+}
+
+.day-desc-container:nth-child(2) {
+    white-space: normal;
+}
+
+.today-info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.today-info-container > * {
+    flex: 1;
+}
+
+.forecast-days-container {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.days-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    
+}
+
+.days-container > * {
+    flex: 1;
+}
+
+.day-container {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.day-desc-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.content-container {
+    flex: 3;
+    display: grid;
+    grid-template-rows: 1fr;
+}
+
+.forecast {
+    font-size: 2.5rem;
+}
+
+.full-forecast-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.info-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    gap: 1rem;
+}
+
+.each-info-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 1rem;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.img-text-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+img.min-temp {
+    filter: invert(55%) sepia(100%) hue-rotate(150deg) saturate(3);
+}
+
+img.max-temp {
+    filter: invert(55%) sepia(100%) hue-rotate(340deg) saturate(3);
+}
+
+img.avg-temp {
+    filter: invert(60%) sepia(100%) hue-rotate(300deg) saturate(5);
+}
+
+img.humidity {
+    filter: invert(30%) sepia(100%) hue-rotate(150deg) saturate(10);
+}
+
+img.chance-of-rain {
+    stroke-width: 10;
+    filter: invert(30%) sepia(100%) hue-rotate(150deg) saturate(10);
+}
+
+.info {
+    min-width: 150px;
+    flex: 1;
+}
+
+.description-container{
+    display: flex;
+    align-items: flex-end;
+}
+
+.hourly-forecast-container {
+    padding: 1rem 1rem 1rem 0;
+    display: grid;
+    gap: 1rem;
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(125px, 20%, 200px);
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 1rem;
+}
+
+.hourly-forecast-container > * {
+    scroll-snap-align: start;
+    min-width: 100px;
+}
+
+.hour {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 175px;
+    border: 1px solid white;
+    border-radius: 15px;
+    > * {
+        border: none;
+    }
+}
+
+.hour > p {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.hour > img {
+    height: 5rem;
+    width: 5rem;
+    flex: 2;
 }
 
