@@ -1,5 +1,9 @@
 import './styles.css';
 import maxtemp from '../assets/temperature-snow-svgrepo-com.svg';
+import mintemp from '../assets/temperature-sun-svgrepo-com.svg';
+import avgtemp from '../assets/temperature-low-svgrepo-com.svg';
+import humidity from '../assets/humidity-svgrepo-com.svg';
+import chanceofrain from '../assets/rain-svgrepo-com.svg';
 
 // fetch(
 //     'https://api.weatherapi.com/v1/current.json?key=91e2728ed3854429add53229242906&q=singapore'
@@ -21,11 +25,58 @@ import maxtemp from '../assets/temperature-snow-svgrepo-com.svg';
 // img1.classList.add('mintempimg', 'svg');
 // day1.appendChild(img1);
 
-const getWeatherData = async () => {
+class Hour {
+    constructor(time, img, info) {
+        this.time = time;
+        this.img = img;
+        this.info = info;
+    }
+
+    createHourDom() {
+        const div = document.createElement('div');
+        const hourTime = document.createElement('p');
+        const content = document.createElement('p');
+        const image = document.createElement('img');
+
+        div.classList.add('hour');
+        image.src = `https:` + this.img;
+        hourTime.textContent = this.time;
+        content.textContent = this.info + `\u00B0C`;
+
+        div.appendChild(hourTime);
+        div.appendChild(image);
+        div.appendChild(content);
+
+        return div;
+    }
+}
+
+function domController() {
+    // let measurement = 'F';
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = await getWeatherData(
+            document.querySelector('input').value
+        );
+        const hourly = document.querySelector('.hourly-forecast-container');
+        hourly.textContent = '';
+        data.today.forEach((hour) => {
+            const currentHour = new Hour(
+                hour.weatherDataCelsius.time,
+                hour.weatherDataCelsius.icon,
+                hour.weatherDataCelsius.temp
+            );
+            hourly.appendChild(currentHour.createHourDom());
+        });
+    });
+}
+
+const getWeatherData = async (input = 'Singapore') => {
     try {
         // data for all 3 days
         const data = await fetch(
-            'https://api.weatherapi.com/v1/forecast.json?key=91e2728ed3854429add53229242906&q=singapore&days=3',
+            `https://api.weatherapi.com/v1/forecast.json?key=91e2728ed3854429add53229242906&q=${input}&days=3`,
             { mode: 'cors' }
         );
         const response = await data.json();
@@ -79,7 +130,11 @@ const getWeatherData = async () => {
             );
             days.push(day);
         });
-        // console.log(days);
+        return {
+            country,
+            today,
+            days,
+        };
     } catch (error) {
         console.log(error);
     }
@@ -113,13 +168,8 @@ const createHourObj = (time, temp, icon) => {
 };
 
 getWeatherData();
+domController();
 
 // create and include weather icon
 // const img = document.createElement('img');
 // console.log(daydata.day.condition.icon);
-
-// const form = document.querySelector('form');
-// form.addEventListener('submit', (e) => {
-//     e.preventDefault();
-//     console.log(document.querySelector('input').value);
-// });

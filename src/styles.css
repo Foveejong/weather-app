@@ -55,6 +55,7 @@ input, button {
 
 input {
     border: none;
+    color: black;
 }
 
 button {
