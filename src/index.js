@@ -21,10 +21,6 @@ import chanceofrain from '../assets/rain-svgrepo-com.svg';
 // const img1 = document.createElement('img');
 // const day1 = document.querySelector('.min-temp');
 
-// img1.src = maxtemp;
-// img1.classList.add('mintempimg', 'svg');
-// day1.appendChild(img1);
-
 class Hour {
     constructor(time, img, info) {
         this.time = time;
@@ -51,16 +47,68 @@ class Hour {
     }
 }
 
+class Day {
+    constructor(max, min, avg, humidity, rain, description, icon) {
+        this.max = max;
+        this.min = min;
+        this.avg = avg;
+        this.humidity = humidity;
+        this.rain = rain;
+        this.description = description;
+        this.icon = icon;
+    }
+
+    create3DaysForecastDom() {
+        const div = document.createElement('div');
+        const image = document.createElement('img');
+        const descriptionContainer = document.createElement('div');
+        const avgtemp = document.createElement('p');
+        const text = document.createElement('p');
+        const chance = document.createElement('p');
+
+        image.src = `https:` + this.icon;
+        avgtemp.textContent = this.avg + `\u00B0C`;
+        text.textContent = this.description;
+        chance.textContent = this.rain + '%';
+
+        div.classList.add('day-container');
+        image.classList.add('svg');
+        descriptionContainer.classList.add('day-desc-container');
+
+        descriptionContainer.appendChild(avgtemp);
+        descriptionContainer.appendChild(text);
+        descriptionContainer.appendChild(chance);
+
+        div.appendChild(image);
+        div.appendChild(descriptionContainer);
+
+        return div;
+    }
+}
+
+function resetDom() {
+    const form = document.querySelector('form');
+    const hourly = document.querySelector('.hourly-forecast-container');
+    const daysContainer = document.querySelector('.days-container');
+
+    form.reset();
+    hourly.textContent = '';
+    daysContainer.textContent = '';
+}
+
 function domController() {
     // let measurement = 'F';
     const form = document.querySelector('form');
+    const hourly = document.querySelector('.hourly-forecast-container');
+    const daysContainer = document.querySelector('.days-container');
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const data = await getWeatherData(
             document.querySelector('input').value
         );
-        const hourly = document.querySelector('.hourly-forecast-container');
-        hourly.textContent = '';
+
+        resetDom();
+
         data.today.forEach((hour) => {
             const currentHour = new Hour(
                 hour.weatherDataCelsius.time,
@@ -68,6 +116,19 @@ function domController() {
                 hour.weatherDataCelsius.temp
             );
             hourly.appendChild(currentHour.createHourDom());
+        });
+
+        data.days.forEach((day) => {
+            const currentDay = new Day(
+                day.weatherDataCelsius.max,
+                day.weatherDataCelsius.min,
+                day.weatherDataCelsius.avg,
+                day.weatherDataCelsius.humidity,
+                day.weatherDataCelsius.rain,
+                day.weatherDataCelsius.description,
+                day.weatherDataCelsius.icon
+            );
+            daysContainer.appendChild(currentDay.create3DaysForecastDom());
         });
     });
 }
@@ -118,7 +179,8 @@ const getWeatherData = async (input = 'Singapore') => {
                 daydata.day.avgtemp_c,
                 daydata.day.avghumidity,
                 daydata.day.daily_chance_of_rain,
-                daydata.day.condition.text
+                daydata.day.condition.text,
+                daydata.day.condition.icon
             );
             day.weatherDataFahrenheit = createWeatherObj(
                 daydata.day.maxtemp_f,
@@ -126,7 +188,8 @@ const getWeatherData = async (input = 'Singapore') => {
                 daydata.day.avgtemp_f,
                 daydata.day.avghumidity,
                 daydata.day.daily_chance_of_rain,
-                daydata.day.condition.text
+                daydata.day.condition.text,
+                daydata.day.condition.icon
             );
             days.push(day);
         });
@@ -148,7 +211,7 @@ const createCountryObj = (name, country, time) => {
     };
 };
 
-const createWeatherObj = (max, min, avg, humidity, rain, description) => {
+const createWeatherObj = (max, min, avg, humidity, rain, description, icon) => {
     return {
         max,
         min,
@@ -156,6 +219,7 @@ const createWeatherObj = (max, min, avg, humidity, rain, description) => {
         humidity,
         rain,
         description,
+        icon,
     };
 };
 
@@ -169,7 +233,3 @@ const createHourObj = (time, temp, icon) => {
 
 getWeatherData();
 domController();
-
-// create and include weather icon
-// const img = document.createElement('img');
-// console.log(daydata.day.condition.icon);
