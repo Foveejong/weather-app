@@ -18,8 +18,20 @@ import chanceofrain from '../assets/rain-svgrepo-com.svg';
 //         console.log(error);
 //     });
 
-// const img1 = document.createElement('img');
-// const day1 = document.querySelector('.min-temp');
+class Country {
+    constructor(name, country, time) {
+        this.name = name;
+        this.country = country;
+        this.time = time;
+    }
+
+    editCountryDom() {
+        const countryTitle = document.querySelector('.subheader.country');
+        const timeTitle = document.querySelector('.subheader.time');
+        countryTitle.textContent = `${this.name}, ${this.country}`;
+        timeTitle.textContent = `${this.time}`;
+    }
+}
 
 class Hour {
     constructor(time, img, info) {
@@ -90,10 +102,14 @@ function resetDom() {
     const form = document.querySelector('form');
     const hourly = document.querySelector('.hourly-forecast-container');
     const daysContainer = document.querySelector('.days-container');
+    const countryTitle = document.querySelector('.subheader.country');
+    const timeTitle = document.querySelector('.subheader.time');
 
     form.reset();
     hourly.textContent = '';
     daysContainer.textContent = '';
+    countryTitle.textContent = '';
+    timeTitle.textContent = '';
 }
 
 function domController() {
@@ -130,6 +146,13 @@ function domController() {
             );
             daysContainer.appendChild(currentDay.create3DaysForecastDom());
         });
+
+        const userCountry = new Country(
+            data.country.name,
+            data.country.country,
+            data.country.time
+        );
+        userCountry.editCountryDom();
     });
 }
 
@@ -231,5 +254,5 @@ const createHourObj = (time, temp, icon) => {
     };
 };
 
-getWeatherData();
 domController();
+getWeatherData();

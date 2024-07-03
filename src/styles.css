@@ -38,11 +38,24 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    gap: 1rem;
 }
 
 .form-container {
     display: flex;
+    flex-wrap: wrap;
+    align-items: start;
     gap: 1rem;
+}
+
+.searchbar-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+button[type="button"], input {
+    width: 200px;
 }
 
 input, button {
