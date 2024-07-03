@@ -14,6 +14,30 @@
     --standard-margin: 1rem;
 }
 
+dialog {
+    background-color: black;
+    border-radius: 20px;
+    position: absolute;
+    top: 40%;
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.dialog-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 35px;
+}
+
+.error {
+    font-size: 1.5rem;
+}
+
+::backdrop {
+    background-color: black;
+}
+
 body {
     margin: 4rem 10rem;
     background-color: black;
@@ -67,7 +91,6 @@ input, button {
     padding: 10px;
     border-radius: 10px;
     outline: none;
-    cursor: pointer;
 }
 
 input {
@@ -78,6 +101,7 @@ input {
 button {
     background-color: rgb(93, 93, 93);
     border: 1px white solid;
+    cursor: pointer;
 }
 
 .page-container {

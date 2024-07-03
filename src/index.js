@@ -128,7 +128,7 @@ function updateForecast(
     document.querySelector('#humidity').textContent = humidity + '%';
     document.querySelector('#chance-of-rain').textContent = chance + '%';
     document.querySelector('.description-container > p').textContent =
-        description;
+        "Today's Description: " + description;
 }
 
 function resetDom() {
@@ -153,10 +153,23 @@ function resetDom() {
     chanceDom.textContent = '';
 }
 
+function handleError(err) {
+    const errorDiv = document.querySelector('.error');
+    document.querySelector('dialog').showModal();
+    const bandage = String.fromCodePoint(0x1f915);
+    const angry = String.fromCodePoint(0x1f621);
+    if (err.code === 1003) {
+        errorDiv.textContent = `Please enter something!! ${bandage}`;
+    } else if (err.code === 1006) {
+        errorDiv.textContent = `Please enter a valid country!! ${angry}`;
+    }
+}
+
 function domController() {
     const form = document.querySelector('form');
     const hourly = document.querySelector('.hourly-forecast-container');
     const daysContainer = document.querySelector('.days-container');
+    const closeBtn = document.querySelector('#close');
     const measurementBtn = document.querySelector('.measurement');
     let measurement = measurementBtn.getAttribute('data');
 
@@ -168,6 +181,10 @@ function domController() {
 
         measurementBtn.textContent =
             measurement === 'weatherDataCelsius' ? '\u00B0C' : '\u00B0F';
+    });
+
+    closeBtn.addEventListener('click', () => {
+        document.querySelector('dialog').close();
     });
 
     form.addEventListener('submit', async (e) => {
@@ -228,6 +245,10 @@ const getWeatherData = async (input = 'Singapore') => {
             { mode: 'cors' }
         );
         const response = await data.json();
+
+        // error handler
+        if (response.error) handleError(response.error);
+
         const forecastdata = response.forecast.forecastday;
 
         // get country data
