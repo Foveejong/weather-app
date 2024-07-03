@@ -98,18 +98,38 @@ class Day {
     }
 }
 
+function updateForecast(max, min, avg, humidity, chance, description) {
+    document.querySelector('#max-temp').textContent = max + `\u00B0C`;
+    document.querySelector('#min-temp').textContent = min + `\u00B0C`;
+    document.querySelector('#avg-temp').textContent = avg + `\u00B0C`;
+    document.querySelector('#humidity').textContent = humidity + '%';
+    document.querySelector('#chance-of-rain').textContent = chance + '%';
+    document.querySelector('.description-container > p').textContent =
+        description;
+}
+
 function resetDom() {
     const form = document.querySelector('form');
     const hourly = document.querySelector('.hourly-forecast-container');
     const daysContainer = document.querySelector('.days-container');
     const countryTitle = document.querySelector('.subheader.country');
     const timeTitle = document.querySelector('.subheader.time');
+    const minDom = document.querySelector('#min-temp');
+    const maxDom = document.querySelector('#max-temp');
+    const avgDom = document.querySelector('#avg-temp');
+    const humidityDom = document.querySelector('#humidity');
+    const chanceDom = document.querySelector('#chance-of-rain');
 
     form.reset();
     hourly.textContent = '';
     daysContainer.textContent = '';
     countryTitle.textContent = '';
     timeTitle.textContent = '';
+    minDom.textContent = '';
+    maxDom.textContent = '';
+    avgDom.textContent = '';
+    humidityDom.textContent = '';
+    chanceDom.textContent = '';
 }
 
 function domController() {
@@ -146,6 +166,16 @@ function domController() {
             );
             daysContainer.appendChild(currentDay.create3DaysForecastDom());
         });
+
+        const currentDay = data.days[0];
+        updateForecast(
+            currentDay.weatherDataCelsius.max,
+            currentDay.weatherDataCelsius.min,
+            currentDay.weatherDataCelsius.avg,
+            currentDay.weatherDataCelsius.humidity,
+            currentDay.weatherDataCelsius.rain,
+            currentDay.weatherDataCelsius.description
+        );
 
         const userCountry = new Country(
             data.country.name,

@@ -4,7 +4,10 @@
     box-sizing: border-box;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: white;
-    /* border: black 1px solid; */
+}
+
+::selection {
+    background-color: plum;
 }
 
 :root {
@@ -114,7 +117,6 @@ button {
     flex-direction: column;
 }
 
-
 .days-container {
     flex: 1;
     display: flex;
@@ -196,7 +198,6 @@ img.humidity {
 }
 
 img.chance-of-rain {
-    stroke-width: 10;
     filter: invert(30%) sepia(100%) hue-rotate(150deg) saturate(10);
 }
 
