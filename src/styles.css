@@ -57,8 +57,9 @@ body {
     gap: 0.5rem;
 }
 
-button[type="button"], input {
-    width: 200px;
+button[type="button"]{
+    text-align: center;
+    width: 50px;
 }
 
 input, button {

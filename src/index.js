@@ -1,9 +1,4 @@
 import './styles.css';
-import maxtemp from '../assets/temperature-snow-svgrepo-com.svg';
-import mintemp from '../assets/temperature-sun-svgrepo-com.svg';
-import avgtemp from '../assets/temperature-low-svgrepo-com.svg';
-import humidity from '../assets/humidity-svgrepo-com.svg';
-import chanceofrain from '../assets/rain-svgrepo-com.svg';
 
 // fetch(
 //     'https://api.weatherapi.com/v1/current.json?key=91e2728ed3854429add53229242906&q=singapore'
@@ -40,7 +35,7 @@ class Hour {
         this.info = info;
     }
 
-    createHourDom() {
+    createHourDom(measurement) {
         const div = document.createElement('div');
         const hourTime = document.createElement('p');
         const content = document.createElement('p');
@@ -50,6 +45,12 @@ class Hour {
         image.src = `https:` + this.img;
         hourTime.textContent = this.time;
         content.textContent = this.info + `\u00B0C`;
+
+        if (measurement === 'weatherDataCelsius') {
+            content.textContent = this.info + `\u00B0C`;
+        } else {
+            content.textContent = this.info + `\u00B0F`;
+        }
 
         div.appendChild(hourTime);
         div.appendChild(image);
@@ -70,7 +71,7 @@ class Day {
         this.icon = icon;
     }
 
-    create3DaysForecastDom() {
+    create3DaysForecastDom(measurement) {
         const div = document.createElement('div');
         const image = document.createElement('img');
         const descriptionContainer = document.createElement('div');
@@ -79,9 +80,14 @@ class Day {
         const chance = document.createElement('p');
 
         image.src = `https:` + this.icon;
-        avgtemp.textContent = this.avg + `\u00B0C`;
         text.textContent = this.description;
         chance.textContent = this.rain + '%';
+
+        if (measurement === 'weatherDataCelsius') {
+            avgtemp.textContent = this.avg + `\u00B0C`;
+        } else {
+            avgtemp.textContent = this.avg + `\u00B0F`;
+        }
 
         div.classList.add('day-container');
         image.classList.add('svg');
@@ -98,10 +104,27 @@ class Day {
     }
 }
 
-function updateForecast(max, min, avg, humidity, chance, description) {
-    document.querySelector('#max-temp').textContent = max + `\u00B0C`;
-    document.querySelector('#min-temp').textContent = min + `\u00B0C`;
-    document.querySelector('#avg-temp').textContent = avg + `\u00B0C`;
+function updateForecast(
+    max,
+    min,
+    avg,
+    humidity,
+    chance,
+    description,
+    measurement
+) {
+    let maxDom = document.querySelector('#max-temp');
+    let minDom = document.querySelector('#min-temp');
+    let avgDom = document.querySelector('#avg-temp');
+    if (measurement === 'weatherDataCelsius') {
+        maxDom.textContent = max + `\u00B0C`;
+        minDom.textContent = min + `\u00B0C`;
+        avgDom.textContent = avg + `\u00B0C`;
+    } else {
+        maxDom.textContent = max + `\u00B0F`;
+        minDom.textContent = min + `\u00B0F`;
+        avgDom.textContent = avg + `\u00B0F`;
+    }
     document.querySelector('#humidity').textContent = humidity + '%';
     document.querySelector('#chance-of-rain').textContent = chance + '%';
     document.querySelector('.description-container > p').textContent =
@@ -109,7 +132,6 @@ function updateForecast(max, min, avg, humidity, chance, description) {
 }
 
 function resetDom() {
-    const form = document.querySelector('form');
     const hourly = document.querySelector('.hourly-forecast-container');
     const daysContainer = document.querySelector('.days-container');
     const countryTitle = document.querySelector('.subheader.country');
@@ -120,7 +142,6 @@ function resetDom() {
     const humidityDom = document.querySelector('#humidity');
     const chanceDom = document.querySelector('#chance-of-rain');
 
-    form.reset();
     hourly.textContent = '';
     daysContainer.textContent = '';
     countryTitle.textContent = '';
@@ -133,48 +154,61 @@ function resetDom() {
 }
 
 function domController() {
-    // let measurement = 'F';
     const form = document.querySelector('form');
     const hourly = document.querySelector('.hourly-forecast-container');
     const daysContainer = document.querySelector('.days-container');
+    const measurementBtn = document.querySelector('.measurement');
+    let measurement = measurementBtn.getAttribute('data');
+
+    measurementBtn.addEventListener('click', () => {
+        measurement =
+            measurement === 'weatherDataCelsius'
+                ? 'weatherDataFahrenheit'
+                : 'weatherDataCelsius';
+
+        measurementBtn.textContent =
+            measurement === 'weatherDataCelsius' ? '\u00B0C' : '\u00B0F';
+    });
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const data = await getWeatherData(
             document.querySelector('input').value
         );
-
         resetDom();
-
         data.today.forEach((hour) => {
             const currentHour = new Hour(
-                hour.weatherDataCelsius.time,
-                hour.weatherDataCelsius.icon,
-                hour.weatherDataCelsius.temp
+                hour[measurement].time,
+                hour[measurement].icon,
+                hour[measurement].temp
             );
-            hourly.appendChild(currentHour.createHourDom());
+            hourly.appendChild(currentHour.createHourDom(measurement));
         });
 
         data.days.forEach((day) => {
             const currentDay = new Day(
-                day.weatherDataCelsius.max,
-                day.weatherDataCelsius.min,
-                day.weatherDataCelsius.avg,
-                day.weatherDataCelsius.humidity,
-                day.weatherDataCelsius.rain,
-                day.weatherDataCelsius.description,
-                day.weatherDataCelsius.icon
+                day[measurement].max,
+                day[measurement].min,
+                day[measurement].avg,
+                day[measurement].humidity,
+                day[measurement].rain,
+                day[measurement].description,
+                day[measurement].icon
             );
-            daysContainer.appendChild(currentDay.create3DaysForecastDom());
+            daysContainer.appendChild(
+                currentDay.create3DaysForecastDom(measurement)
+            );
         });
 
         const currentDay = data.days[0];
         updateForecast(
-            currentDay.weatherDataCelsius.max,
-            currentDay.weatherDataCelsius.min,
-            currentDay.weatherDataCelsius.avg,
-            currentDay.weatherDataCelsius.humidity,
-            currentDay.weatherDataCelsius.rain,
-            currentDay.weatherDataCelsius.description
+            currentDay[measurement].max,
+            currentDay[measurement].min,
+            currentDay[measurement].avg,
+            currentDay[measurement].humidity,
+            currentDay[measurement].rain,
+            currentDay[measurement].description,
+            measurement
         );
 
         const userCountry = new Country(
