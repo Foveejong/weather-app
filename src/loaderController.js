@@ -6,10 +6,15 @@ function addLoader() {
 }
 
 function removeLoader() {
-    document.querySelector('.loader').classList.add('loader-hidden');
-    document.querySelector('.loader').addEventListener('transitionend', () => {
-        document.querySelector('.loader').remove();
-    });
+    const loader = document.querySelector('.loader');
+    if (loader) {
+        document.querySelector('.loader').classList.add('loader-hidden');
+        document
+            .querySelector('.loader')
+            .addEventListener('transitionend', () => {
+                document.querySelector('.loader').remove();
+            });
+    }
 }
 
 export { addLoader, removeLoader };
