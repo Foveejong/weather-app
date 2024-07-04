@@ -1,4 +1,7 @@
+import { addLoader, removeLoader } from './loaderController';
+
 async function fetchData(input) {
+    addLoader();
     const data = await fetch(
         `https://api.weatherapi.com/v1/forecast.json?key=91e2728ed3854429add53229242906&q=${input}&days=3`,
         { mode: 'cors' }
@@ -6,7 +9,10 @@ async function fetchData(input) {
     const response = await data.json();
 
     // error handler
-    if (response.error) handleError(response.error);
+    if (response.error) {
+        handleError(response.error);
+    }
+    removeLoader();
 
     return response;
 }

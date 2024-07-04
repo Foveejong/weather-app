@@ -277,3 +277,37 @@ img.chance-of-rain {
     flex: 2;
 }
 
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    z-index: 1;
+    transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader::after {
+    z-index: 1;
+    content: "";
+    height: 75px;
+    width: 75px;
+    border: 15px solid #dddddd;
+    border-radius: 50%;
+    border-top-color: rgb(255, 117, 255);
+    animation: loading 0.75s ease infinite;
+}
+
+.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@keyframes loading {
+    from { transform: rotate(0turn) }
+    to { transform: rotate(1turn) }
+}
