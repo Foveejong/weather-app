@@ -1,11 +1,30 @@
 import Hour from './Hour';
 import Day from './Day';
 import Country from './Country';
+import avgTempImg from '../assets/temperature-low-svgrepo-com.svg';
+import minTempImg from '../assets/temperature-snow-svgrepo-com.svg';
+import maxTempImg from '../assets/temperature-sun-svgrepo-com.svg';
+import humidityImg from '../assets/humidity-svgrepo-com.svg';
+import chanceOfRainImg from '../assets/rain-svgrepo-com.svg';
 import { getWeatherData } from './logic';
 
 let DATA;
 
-function updateForecast(
+const uploadPhotos = () => {
+    const minTemp = document.querySelector('.svg.min-temp');
+    const maxTemp = document.querySelector('.svg.max-temp');
+    const avgTemp = document.querySelector('.svg.avg-temp');
+    const humidity = document.querySelector('.svg.humidity');
+    const chanceOfRain = document.querySelector('.svg.chance-of-rain');
+
+    minTemp.src = minTempImg;
+    maxTemp.src = maxTempImg;
+    avgTemp.src = avgTempImg;
+    humidity.src = humidityImg;
+    chanceOfRain.src = chanceOfRainImg;
+};
+
+const updateForecast = (
     max,
     min,
     avg,
@@ -13,7 +32,7 @@ function updateForecast(
     chance,
     description,
     measurement
-) {
+) => {
     let maxDom = document.querySelector('#max-temp');
     let minDom = document.querySelector('#min-temp');
     let avgDom = document.querySelector('#avg-temp');
@@ -30,9 +49,9 @@ function updateForecast(
     document.querySelector('#chance-of-rain').textContent = chance + '%';
     document.querySelector('.description-container > p').textContent =
         "Today's Description: " + description;
-}
+};
 
-function resetDom() {
+const resetDom = () => {
     const hourly = document.querySelector('.hourly-forecast-container');
     const daysContainer = document.querySelector('.days-container');
     const countryTitle = document.querySelector('.subheader.country');
@@ -54,7 +73,7 @@ function resetDom() {
     humidityDom.textContent = '';
     chanceDom.textContent = '';
     description.textContent = "Today's Description: ";
-}
+};
 
 const initMeasurementBtn = () => {
     const measurementBtn = document.querySelector('.measurement');
@@ -163,6 +182,7 @@ const initForm = () => {
 };
 
 function domController() {
+    uploadPhotos();
     initMeasurementBtn();
     initCloseBtn();
     initForm();
